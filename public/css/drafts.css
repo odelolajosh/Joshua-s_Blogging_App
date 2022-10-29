@@ -1,0 +1,15 @@
+header {
+  display: flex;
+  justify-content: space-between;
+}
+
+header div {
+  display: grid;
+  place-items: center;
+}
+
+.post__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

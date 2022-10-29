@@ -1,0 +1,44 @@
+<!-- include header -->
+<%- include('partials/header', {title: 'Login to Joshua\' s Blog App' , page: 'login' }) %>
+
+  <body>
+    <div class="container">
+      <h2> <a href="/" style="margin-right: 1rem;"><img class="icon" src="/images/left.png" /></a> Login</h2>
+      <form>
+        <input type="email" id="email" placeholder="Email">
+        <input type="password" id="password" placeholder="Password">
+        <div class="form__footer">
+          <button class="spirit__btn" type="submit">
+            Continue
+          </button>
+          <span class="sign_up">Or, you need to <a href="/signup">sign up</a>?</span>
+        </div>
+      </form>
+    </div>
+  </body>
+  <script>
+    document.querySelector('form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      const email = e.target[0].value;
+      const password = e.target[1].value;
+      fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (!data.success) {
+            throw new Error(data.error)
+          }
+          localStorage.setItem('token', data.token);
+          window.location.href = '/in';
+        })
+        .catch((err) => alert(err));
+    });
+  </script>
+
+  <!-- include footer -->
+  <%- include('partials/footer') %>

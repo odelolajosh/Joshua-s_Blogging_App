@@ -1,0 +1,53 @@
+.new__bottom {
+  position: fixed;
+  bottom: 0;
+  width: min(100%, 800px);
+  margin: 4rem auto 4rem auto;
+  padding: 0 15px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.unauthorized__top {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.post__list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.post__item a {
+  text-decoration: none;
+}
+
+.post__item:hover a {
+  text-decoration: none;
+  color: #333;
+}
+
+.post__item:hover a h4 {
+  text-decoration: none;
+  color: var(--primary);
+}
+
+.post__item:hover p {
+  text-decoration: none;
+}
+
+.post__item p {
+  font-size: 1.3em;
+  text-decoration: none !important;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+header a {
+  font-size: 1.34em;
+}

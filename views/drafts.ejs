@@ -1,0 +1,25 @@
+<!-- include header -->
+<%- include('partials/header', {title: 'Joshua\' s Blog App' , page: 'in' }) %>
+
+  <body>
+    <div class="container">
+      <h2><a href="/in" style="margin-right: 1rem;"><img class="icon" src="/images/left.png" /></a> Your Drafts</h2>
+      <div>
+        <% if (posts) { %>
+          <ul class="post__list">
+            <% posts.forEach((post)=> { %>
+              <li class="post__item">
+                <a href="/post/<%= post._id %>/view">
+                  <h4><%= post.title %></h4>
+                  <p><%= post.description %></p>
+                </a>
+              </li>
+              <% }) %>
+          </ul>
+        <% } %>
+      </div>
+    </div>
+  </body>
+
+  <!-- include footer -->
+  <%- include('partials/footer') %>

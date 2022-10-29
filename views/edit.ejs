@@ -1,0 +1,68 @@
+<!-- include header -->
+<%- include('partials/header', {title: 'Joshua\' s Blog App' , page: 'edit' }) %>
+
+  <body>
+    <div class="container">
+      <header>
+        <h2> <a href="/in" style="margin-right: 1rem;"><img class="icon" src="/images/left.png" /></a> Write a story</h2>
+      </header>
+      <div class="actions__box">
+        <% if (post.state=="draft" ) { %>
+          <button class="spirit__btn" id="publish__post">Publish</button>
+        <% } %>
+        <button class="spirit__btn" id="save__post">Save</button>
+      </div>
+      <div class="fields">
+        <input type="text" placeholder="Title" class="title" value="<%= post.title %>" />
+        <input type="text" placeholder="Description" class="desc" value="<%= post.description %>" />
+        <input type="text" placeholder="Tags, music, tech, ..." class="tags" value="<%= post.tags.join(', ') %>" />
+        <textarea name="body" id="" cols="30" rows="10" placeholder="Write something here"><%= post.body %></textarea>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    document.getElementById("publish__post")?.addEventListener("click", function () {
+      const token = localStorage.getItem("token");
+      fetch("/post/<%= post._id %>/publish", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            window.location.href = "/in";
+          }
+        });
+    });
+
+
+    document.getElementById("save__post").addEventListener("click", function () {
+        const token = localStorage.getItem("token");
+        fetch("/post/<%= post._id %>", {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            title: document.querySelector(".title").value,
+            description: document.querySelector(".desc").value,
+            tags: document.querySelector(".tags").value.split(","),
+            body: document.querySelector("textarea").value,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.success) {
+              window.location.href = "<% if (post.state=='draft' ) { %>/post/drafts<% } else { %>/in<% } %>";
+            }
+          });
+      });
+  </script>
+
+  <!-- include footer -->
+  <%- include('partials/footer') %>

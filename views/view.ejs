@@ -1,0 +1,56 @@
+<!-- include header -->
+<%- include('partials/header', {title: 'Joshua\' s Blog App' , page: 'view' }) %>
+
+  <body>
+    <div class="container">
+      <header>
+        <a href="/in" style="margin-right: 1rem;"><img class="icon" src="/images/left.png" /></a>
+        <div>
+          <% if (user && user._id.toString() === post.author.toString()) { %>
+            <a href="/post/<%= post._id %>/edit">
+              <button class="spirit__btn" id="publish__post">Edit</button>
+            </a>
+            <!-- <a href="/post/<%= post._id %>/delete"><img class="icon" src="/images/delete.png" /></a> -->
+          <% } %>
+        </div>
+      </header>
+      <h2 class="title__box"><%= post.title %></h2>
+      <p class="desc__box"><%= post.description %></p>
+      <div class="tags__box">
+        <% for (let tag of post.tags || []) { %>
+          <span class="tag"><%= tag %></span>
+        <% } %>
+      </div>
+      <div class="body__box">
+        <%- post.body %>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    document.getElementById("publish__post")?.addEventListener("click", function () {
+      const token = localStorage.getItem("token");
+      fetch("/post", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: document.querySelector(".title").value,
+          description: document.querySelector(".desc").value,
+          tags: document.querySelector(".tags").value.replace(" ", "").split(","),
+          body: document.querySelector("textarea").value,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            window.location.href = "/post/drafts";
+          }
+        });
+    });
+  </script>
+
+  <!-- include footer -->
+  <%- include('partials/footer') %>

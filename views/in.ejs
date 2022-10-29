@@ -1,0 +1,46 @@
+<!-- include header -->
+<%- include('partials/header', {title: 'Joshua\' s Blog App' , page: 'in' }) %>
+
+  <body>
+    <div class="container">
+      <% if (!user) { %>
+        <div class="unauthorized__top">
+          <a href="/login">
+            <button class="spirit__btn">Login</button>
+          </a>
+        </div>
+      <% } %>
+      <% if (user) { %>
+        <header>
+          <h2>Your're in!</h2>
+          <a href="/post/drafts">See Drafts</a>
+        </header>
+      <% } else { %>
+        <h2>Popular Today</h2>
+      <% } %>
+      <div>
+        <% if (posts) { %>
+          <ul class="post__list">
+            <% posts.forEach((post)=> { %>
+              <li class="post__item">
+                <a href="/post/<%= post._id %>/view">
+                  <h4><%= post.title %></h4>
+                  <p><%= post.description %></p>
+                </a>
+              </li>
+              <% }) %>
+          </ul>
+        <% } %>
+        <% if (user) { %>
+          <div class="new__bottom">
+            <a href="/write">
+              <button class="spirit__btn">Write</button>
+            </a>
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </body>
+
+  <!-- include footer -->
+  <%- include('partials/footer') %>

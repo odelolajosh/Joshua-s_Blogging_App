@@ -1,0 +1,47 @@
+<!-- include header -->
+<%- include('partials/header', {title: 'Joshua\' s Blog App' , page: 'write' }) %>
+
+  <body>
+    <div class="container">
+      <header>
+        <h2> <a href="/in" style="margin-right: 1rem;"><img class="icon" src="/images/left.png" /></a> Write a story</h2>
+        <div>
+          <button class="spirit__btn" id="publish__post">Save a draft</button>
+        </div>
+      </header>
+      <div class="fields">
+        <input type="text" placeholder="Title" class="title" />
+        <input type="text" placeholder="Description" class="desc" />
+        <input type="text" placeholder="Tags, music, tech, ..." class="tags" />
+        <textarea name="body" id="" cols="30" rows="10" placeholder="Write something here"></textarea>
+      </div>
+    </div>
+  </body>
+
+  <script>
+    document.getElementById("publish__post")?.addEventListener("click", function () {
+      const token = localStorage.getItem("token");
+      fetch("/post", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          title: document.querySelector(".title").value,
+          description: document.querySelector(".desc").value,
+          tags: document.querySelector(".tags").value.replace(" ", "").split(","),
+          body: document.querySelector("textarea").value,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            window.location.href = "/post/drafts";
+          }
+        });
+    });
+  </script>
+
+  <!-- include footer -->
+  <%- include('partials/footer') %>
