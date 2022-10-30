@@ -37,6 +37,7 @@ exports.createUser = asyncHandler(async (req, res, next) => {
         res.status(201).json({
           success: true,
           token,
+          message: "User created",
         });
       });
     } catch (error) {

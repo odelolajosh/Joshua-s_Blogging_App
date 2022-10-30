@@ -77,6 +77,20 @@ exports.publishPost = asyncHandler(async (req, res) => {
   });
 })
 
+exports.unpublishPost = asyncHandler(async (req, res) => {
+  const { id: postId } = req.params;
+  const post = await Post.findById(postId);
+  if (req.user._id.toString() !== post.author.toString()) {
+    throw new AppError("You are not authorized", 404)
+  }
+  post.state = PostState.DRAFT;
+  await post.save();
+  res.status(200).json({
+    success: true,
+    post,
+  });
+})
+
 exports.renderPostToView = asyncHandler(async (req, res) => {
   const { id: postId } = req.params;
   const post = await Post.findById(postId);
@@ -101,6 +115,5 @@ exports.deletePost = asyncHandler(async (req, res) => {
   await Post.findByIdAndDelete(postId);
   res.status(200).json({
     success: true,
-    post,
   });
 })
