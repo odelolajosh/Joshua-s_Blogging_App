@@ -6,6 +6,9 @@
       <header>
         <a href="/in" style="margin-right: 1rem;"><img class="icon" src="/images/left.png" /></a>
         <div>
+          <% if (post.state=="draft" ) { %>
+            <button class="spirit__btn" id="publish__post">Publish</button>
+          <% } %>
           <% if (user && user._id.toString() === post.author.toString()) { %>
             <a href="/post/<%= post._id %>/edit">
               <button class="spirit__btn" id="publish__post">Edit</button>
@@ -30,23 +33,17 @@
   <script>
     document.getElementById("publish__post")?.addEventListener("click", function () {
       const token = localStorage.getItem("token");
-      fetch("/post", {
-        method: "POST",
+      fetch("/post/<%= post._id %>/publish", {
+        method: "PATCH",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          title: document.querySelector(".title").value,
-          description: document.querySelector(".desc").value,
-          tags: document.querySelector(".tags").value.replace(" ", "").split(","),
-          body: document.querySelector("textarea").value,
-        }),
       })
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {
-            window.location.href = "/post/drafts";
+            window.location.href = "/in";
           }
         });
     });

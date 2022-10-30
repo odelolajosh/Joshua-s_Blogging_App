@@ -61,8 +61,10 @@ header {
 }
 
 header div {
-  display: grid;
-  place-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
 }
 
 .desc__box {
