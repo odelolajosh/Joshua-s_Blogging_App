@@ -17,6 +17,7 @@ const app = express();
 
 const authRoute = require("./routes/auth.route");
 const postRoute = require("./routes/post.route");
+const { __test__, __dev__ } = require("./constants");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -32,7 +33,9 @@ app.use(
   })
 );
 
-app.use(morgan("dev"));
+if (__dev__ && !__test__) {
+  app.use(morgan("dev"));
+}
 
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -60,6 +63,10 @@ app.use((err, req, res, next) => {
 
 connectToDatabase();
 
-app.listen(PORT, HOST, () => {
-  console.log(`Blogging App running at http://${HOST}:${PORT}`);
-});
+if (!__test__) { // Don't start the server if we are testing
+  app.listen(PORT, HOST, () => {
+    logger.info(`Blogging App running at http://${HOST}:${PORT}`);
+  });
+}
+
+module.exports = app;
