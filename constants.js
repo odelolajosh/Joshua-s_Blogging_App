@@ -14,3 +14,6 @@ exports.UNAUTHORIZED = {
 }
 
 exports.PostStates = Object.values(exports.PostState);
+
+exports.__dev__ = process.env.NODE_ENV !== "production";
+exports.__test__ = process.env.NODE_ENV === "test";
