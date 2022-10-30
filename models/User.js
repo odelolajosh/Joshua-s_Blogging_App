@@ -21,7 +21,8 @@ const UserSchema = new Schema({
   },
   password: {
     type: String,
-    required: true
+    required: true,
+    select: false,
   },
 });
 
@@ -34,7 +35,8 @@ UserSchema.pre("save", async function (next) {
 })
 
 UserSchema.statics.findByCredentials = async function (email, password) {
-  const user = await this.findOne({ email });
+  // add password to select
+  const user = await this.findOne({ email }).select("+password");
 
   if (!user) {
     throw new AppError("Invalid email or password");
