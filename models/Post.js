@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const { PostStates, Models, PostState } = require("../constants");
+const { getReadTime } = require("../utils/postUtils");
 const { Schema } = mongoose;
 
 const PostSchema = new Schema({
@@ -42,6 +43,11 @@ const PostSchema = new Schema({
     type: Date,
     default: Date.now
   }
+});
+
+PostSchema.pre("save", function(next) {
+  this.read_time = getReadTime(this.body);
+  next();
 });
 
 PostSchema.statics.findAllPublished = function() {
