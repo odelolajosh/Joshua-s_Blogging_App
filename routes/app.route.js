@@ -27,10 +27,10 @@ router.get("/write", connectEnsureLogin.ensureLoggedIn(), async (req, res) => {
   res.render("write");
 });
 
-router.get("/drafts", connectEnsureLogin.ensureLoggedIn({ redirectTo: "/login" }), renderDrafts);
+router.get("/drafts", connectEnsureLogin.ensureLoggedIn({ redirectTo: "/app/login" }), renderDrafts);
 
 router.get("/post/:id/", renderPostToView);
 
-router.get("/post/:id/edit", connectEnsureLogin.ensureLoggedIn({ redirectTo: "/login" }), renderPostToEdit);
+router.get("/post/:id/edit", connectEnsureLogin.ensureLoggedIn({ redirectTo: "/app/login" }), renderPostToEdit);
 
 module.exports = router;
