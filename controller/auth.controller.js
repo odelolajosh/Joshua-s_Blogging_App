@@ -9,7 +9,8 @@ exports.loginUser = asyncHandler(async (req, res, next) => {
     if (err || !user) {
       const message = err?.message || info.message;
       const statusCode = err?.status? 500 : 400;
-      throw new AppError(message, statusCode);
+      const error =  new AppError(message, statusCode);
+      next(error)
     }
     req.login(user, { session: true }, async (error) => {
       if (error) return next(error);

@@ -2,18 +2,28 @@ const { PostState } = require("../constants");
 const Post = require("../models/Post");
 const AppError = require("../utils/AppError");
 const asyncHandler = require("../utils/asyncHandler");
+const { getReadTime } = require("../utils/postUtils");
 const { CreatePostSchema } = require("../validations/post.validation");
 
 exports.getAllPosts = asyncHandler(async (req, res) => {
-  const posts = await Post.findAllPublished().populate("author");
+  const { page = 1, limit = 5 } = req.query;
+  const skip = (page - 1) * limit;
+  const total = await Post.countDocuments({ state: PostState.PUBLISHED })
+  const totalPages = Math.ceil(total / limit);
+  const posts = await Post.findAllPublished().populate("author").skip(skip).limit(limit);
   res.status(200).json({
     success: true,
     posts,
+    page,
+    total: totalPages,
   });
 });
 
 exports.getPost = asyncHandler(async (req, res) => {
   const post = await Post.findById(req.params.id).populate("author");
+  if (!post) {
+    throw new AppError("Post not found", 404);
+  }
   res.status(200).json({
     success: true,
     post,
@@ -40,7 +50,7 @@ exports.createPost = asyncHandler(async (req, res) => {
     throw new AppError(validationError, 400);
   }
   value.author = req.user._id;
-  value.read_time = value.body.split(" ").length / 200;
+  value.read_time = getReadTime(value.body);
   const post = await Post.create(value);
   res.status(201).json({
     success: true,
@@ -53,13 +63,21 @@ exports.updatePost = asyncHandler(async (req, res) => {
   if (validationError) {
     throw new AppError(validationError, 400);
   }
-  const post = await Post.findByIdAndUpdate(req.params.id, value, {
+  const post = await Post.findById(req.params.id);
+  if (!post) {
+    throw new AppError("Post not found", 404);
+  }
+  if (post.author.toString() !== req.user._id.toString()) {
+    throw new AppError("Unauthorized", 401);
+  }
+  value.read_time = getReadTime(value.body);
+  const updatedPost = await Post.findByIdAndUpdate(req.params.id, value, {
     new: true,
     runValidators: true,
   });
   res.status(200).json({
     success: true,
-    post,
+    post: updatedPost,
   });
 });
 
