@@ -5,12 +5,20 @@
     <div class="container">
       <h1>Welcome</h1>
       <p class="intro">
-        Hi! Internet traveler. You have somehow crossed the vastness of the internet and found your way to my humble
-        abode.
-        I am glad you are here. I hope you enjoy your stay.
+        <% if (user) { %>
+          Hi! <%= user.first_name %>. You are somehow crossed the vastness of the internet and found your way to my humble
+          abode logged in.
+          I am glad you are here. I hope you enjoy your stay.
+        <% } else { %>
+          Hi! Internet traveler. You have somehow crossed the vastness of the internet and found your way to my humble
+          abode.
+          I am glad you are here. I hope you enjoy your stay. If you would like to create a blog, please
+          <a href="/app/signup">register</a> or
+          <a href="/app/login">login</a>.
+        <% } %>
       </p>
       <div style="margin-top: 3rem;">
-        <a href="/in">
+        <a href="/app/in">
           <button class="spirit__btn">
             Get in
           </button>

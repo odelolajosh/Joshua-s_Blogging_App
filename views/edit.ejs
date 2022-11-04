@@ -4,7 +4,7 @@
   <body>
     <div class="container">
       <header>
-        <h2> <a href="/in" style="margin-right: 1rem;"><img class="icon" src="/images/left.png" /></a> Write a story</h2>
+        <h2> <a href="/app/in" style="margin-right: 1rem;"><img class="icon" src="/images/left.png" /></a> Write a story</h2>
       </header>
       <div class="actions__box">
         <% if (post.state=="draft" ) { %>
@@ -24,7 +24,7 @@
   <script>
     document.getElementById("publish__post")?.addEventListener("click", function () {
       const token = localStorage.getItem("token");
-      fetch("/post/<%= post._id %>/publish", {
+      fetch("/api/post/<%= post._id %>/publish", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -34,7 +34,7 @@
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {
-            window.location.href = "/in";
+            window.location.href = "/app/in";
           }
         });
     });
@@ -42,7 +42,7 @@
 
     document.getElementById("save__post").addEventListener("click", function () {
         const token = localStorage.getItem("token");
-        fetch("/post/<%= post._id %>", {
+        fetch("/api/post/<%= post._id %>", {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -58,7 +58,7 @@
           .then((res) => res.json())
           .then((data) => {
             if (data.success) {
-              window.location.href = "<% if (post.state=='draft' ) { %>/post/drafts<% } else { %>/in<% } %>";
+              window.location.href = "/app<% if (post.state=='draft' ) { %>/drafts<% } else { %>/in<% } %>";
             }
           });
       });

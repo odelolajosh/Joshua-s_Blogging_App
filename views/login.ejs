@@ -11,7 +11,7 @@
           <button class="spirit__btn" type="submit">
             Continue
           </button>
-          <span class="sign_up">Or, you need to <a href="/signup">sign up</a>?</span>
+          <span class="sign_up">Or, you need to <a href="/app/signup">sign up</a>?</span>
         </div>
       </form>
     </div>
@@ -21,7 +21,7 @@
       e.preventDefault();
       const email = e.target[0].value;
       const password = e.target[1].value;
-      fetch('/login', {
+      fetch('/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -34,7 +34,7 @@
             throw new Error(data.error)
           }
           localStorage.setItem('token', data.token);
-          window.location.href = '/in';
+          window.location.href = '/app/in';
         })
         .catch((err) => alert(err));
     });

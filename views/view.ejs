@@ -4,13 +4,13 @@
   <body>
     <div class="container">
       <header>
-        <a href="/in" style="margin-right: 1rem;"><img class="icon" src="/images/left.png" /></a>
+        <a href="/app/in" style="margin-right: 1rem;"><img class="icon" src="/images/left.png" /></a>
         <div>
-          <% if (post.state=="draft" ) { %>
+          <% if (post.state === "draft" ) { %>
             <button class="spirit__btn" id="publish__post">Publish</button>
           <% } %>
           <% if (user && user._id.toString() === post.author.toString()) { %>
-            <a href="/post/<%= post._id %>/edit">
+            <a href="/app/post/<%= post._id %>/edit">
               <button class="spirit__btn" id="publish__post">Edit</button>
             </a>
             <!-- <a href="/post/<%= post._id %>/delete"><img class="icon" src="/images/delete.png" /></a> -->
@@ -33,7 +33,7 @@
   <script>
     document.getElementById("publish__post")?.addEventListener("click", function () {
       const token = localStorage.getItem("token");
-      fetch("/post/<%= post._id %>/publish", {
+      fetch("/api/post/<%= post._id %>/publish", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -43,7 +43,7 @@
         .then((res) => res.json())
         .then((data) => {
           if (data.success) {
-            window.location.href = "/in";
+            window.location.href = "/app/in";
           }
         });
     });

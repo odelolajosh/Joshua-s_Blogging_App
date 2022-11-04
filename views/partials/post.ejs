@@ -1,0 +1,17 @@
+<li class="post__item">
+  <a href="/app/post/<%= post._id %>/">
+    <h4>
+      <%= post.title %>
+    </h4>
+    <p class="desc">
+      <%= post.description %>
+    </p>
+    <div>
+      <span class="author"> By <%= post.author.first_name %> <%= post.author.last_name %></span>
+      <span class="separator">•</span>
+      <span class="date"><%= new Date(post.created_at).toDateString().substr(4) %></span>
+      <span class="separator">•</span>
+      <span class="read_time"><%= post.read_time %> min read</span>
+    </div>
+  </a>
+</li>
