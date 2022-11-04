@@ -197,3 +197,7 @@ button.icon__btn {
 .slight__trans:hover {
   transform: translateX(5px);
 }
+
+.separator {
+  margin-inline: .34rem;
+}

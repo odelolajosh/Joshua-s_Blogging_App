@@ -19,6 +19,14 @@
   gap: 1rem;
 }
 
+.post__item {
+  position: relative;
+}
+
+.post__item:hover {
+  cursor: pointer;
+}
+
 .post__item a {
   text-decoration: none;
 }
