@@ -15,8 +15,7 @@ const HOST = process.env.HOST || "localhost";
 
 const app = express();
 
-const authRoute = require("./routes/auth.route");
-const postRoute = require("./routes/post.route");
+const indexRoute = require('./routes/index.route')
 const { __test__, __dev__ } = require("./constants");
 
 app.use(express.json());
@@ -47,11 +46,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get("/", (req, res) => {
-  res.render("index");
+  res.render("index", { user: req.user });
 });
 
-app.use(authRoute);
-app.use("/post", postRoute);
+app.use(indexRoute);
 
 app.use((err, req, res, next) => {
   logger.error(err);
