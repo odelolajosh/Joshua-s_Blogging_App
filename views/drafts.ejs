@@ -12,6 +12,9 @@
             <% }) %>
           </ul>
         <% } %>
+        <% if (!posts || !posts.length) { %>
+          <p>There are no posts yet.</p>
+        <% } %>
       </div>
     </div>
   </body>

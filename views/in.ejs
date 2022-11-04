@@ -19,12 +19,15 @@
         <h2>Popular Today</h2>
       <% } %>
       <div>
-        <% if (posts) { %>
+        <% if (posts && posts.length) { %>
           <ul class="post__list">
             <% posts.forEach((post)=> { %>
               <%- include('partials/post', {post: post}) %>
             <% }) %>
           </ul>
+        <% } %>
+        <% if (!posts || !posts.length) { %>
+          <p>There are no posts yet.</p>
         <% } %>
         <% if (user) { %>
           <div class="new__bottom">
