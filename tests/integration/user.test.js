@@ -11,7 +11,7 @@ const userCredentials = {
 describe('POST /signup', () => {
   it('should create a new user', async () => {
     const credentials = { ...userCredentials };
-    const res = await request.post('/signup').send(credentials);
+    const res = await request.post('/api/signup').send(credentials);
     expect(res.status).toBe(201);
     expect(res.body).hasOwnProperty('success', true);
     expect(res.body).hasOwnProperty('token');
@@ -27,7 +27,7 @@ describe('POST /login', () => {
   it('should login a user', async () => {
     const credentials = { ...userCredentials };
     delete credentials.name;
-    const res = await request.post('/login').send(credentials);
+    const res = await request.post('/api/login').send(credentials);
     expect(res.status).toBe(200);
     expect(res.body).hasOwnProperty('success', true);
     expect(res.body).hasOwnProperty('token');

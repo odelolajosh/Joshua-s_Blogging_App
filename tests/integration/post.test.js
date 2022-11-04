@@ -25,9 +25,9 @@ beforeAll(async () => {
   token = await user.generateToken();
 });
 
-describe('GET /post', () => {
+describe('GET /api/post', () => {
   it('should get a post', async () => {
-    const res = await request.get('/post');
+    const res = await request.get('/api/post');
     expect(res.status).toBe(200);
     expect(res.body).hasOwnProperty('success', true);
     expect(res.body).hasOwnProperty('posts');
@@ -35,10 +35,10 @@ describe('GET /post', () => {
   });
 });
 
-describe('POST /post', () => {
+describe('POST /api/post', () => {
   it('should create a post', async () => {
     const credentials = { ...postCredentials };
-    const res = await request.post('/post').set('Authorization', `Bearer ${token}`).send(credentials);
+    const res = await request.post('/api/post').set('Authorization', `Bearer ${token}`).send(credentials);
     expect(res.status).toBe(201);
     expect(res.body).hasOwnProperty('success', true);
     expect(res.body).hasOwnProperty('post');
@@ -52,9 +52,9 @@ describe('POST /post', () => {
   });
 });
 
-describe('GET /post/:id', () => {
+describe('GET /api/post/:id', () => {
   it('should get a post', async () => {
-    const res = await request.get(`/post/${post._id}`);
+    const res = await request.get(`/api/post/${post._id}`);
     expect(res.status).toBe(200);
     expect(res.body).hasOwnProperty('success', true);
     expect(res.body).hasOwnProperty('post');
@@ -67,11 +67,11 @@ describe('GET /post/:id', () => {
   });
 });
 
-describe('PUT /post/:id', () => {
+describe('PUT /api/post/:id', () => {
   it('should update a post', async () => {
     const credentials = { ...postCredentials };
     credentials.title = 'New post title';
-    const res = await request.put(`/post/${post._id}`).set('Authorization', `Bearer ${token}`).send(credentials);
+    const res = await request.put(`/api/post/${post._id}`).set('Authorization', `Bearer ${token}`).send(credentials);
     expect(res.status).toBe(200);
     expect(res.body).hasOwnProperty('success', true);
     expect(res.body).hasOwnProperty('post');
@@ -85,9 +85,9 @@ describe('PUT /post/:id', () => {
   });
 });
 
-describe('PATCH /post/:id/publish', () => {
+describe('PATCH /api/post/:id/publish', () => {
   it('should publish a post', async () => {
-    const res = await request.patch(`/post/${post._id}/publish`).set('Authorization', `Bearer ${token}`);
+    const res = await request.patch(`/api/post/${post._id}/publish`).set('Authorization', `Bearer ${token}`);
     expect(res.status).toBe(200);
     expect(res.body).hasOwnProperty('success', true);
     expect(res.body).hasOwnProperty('post');
@@ -101,9 +101,9 @@ describe('PATCH /post/:id/publish', () => {
   });
 });
 
-describe('PATCH /post/:id/unpublish', () => {
+describe('PATCH /api/post/:id/unpublish', () => {
   it('should unpublish a post', async () => {
-    const res = await request.patch(`/post/${post._id}/unpublish`).set('Authorization', `Bearer ${token}`);
+    const res = await request.patch(`/api/post/${post._id}/unpublish`).set('Authorization', `Bearer ${token}`);
     expect(res.status).toBe(200);
     expect(res.body).hasOwnProperty('success', true);
     expect(res.body).hasOwnProperty('post');
@@ -117,9 +117,9 @@ describe('PATCH /post/:id/unpublish', () => {
   });
 });
 
-describe('DELETE /post/:id', () => {
+describe('DELETE /api/post/:id', () => {
   it('should delete a post', async () => {
-    const res = await request.delete(`/post/${post._id}`).set('Authorization', `Bearer ${token}`);
+    const res = await request.delete(`/api/post/${post._id}`).set('Authorization', `Bearer ${token}`);
     expect(res.status).toBe(200);
     expect(res.body).hasOwnProperty('success', true);
     const deletedPost = await Post.findById(post._id);

@@ -1,8 +1,8 @@
 const database = require("./database");
 
 const setUpDbForTesting = () => {
-  beforeAll((done) => {
-    database.connect(done);
+  beforeAll(async () => {
+    database.connect();
   });
 
   afterAll(async () => {
