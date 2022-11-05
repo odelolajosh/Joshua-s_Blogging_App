@@ -7,38 +7,41 @@ Below is a list of the API endpoints and their respective methods.
 BASE_URL = https://joshua-blog-app.herokuapp.com/api/
 ```
 
-### POST /api/login
-Logs in a user. <br>
-```
-curl -X POST \
-  https://joshua-blog-app.herokuapp.com/api/login \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "username": "joshua",
-  "password": "password"
-}'
-```
-Response
-```
-{
-  "success": true,
-  "token": "<token>"
-}
-```
-
 ### POST /api/signup
 Signs up a user. <br>
-```
+```bash
 curl -X POST \
   https://joshua-blog-app.herokuapp.com/api/signup \
   -H 'Content-Type: application/json' \
   -d '{
-  "username": "joshua",
+  "name": "joshua me",
+  "email": "joshuagmail.com",
   "password": "password"
 }'
 ```
 Response
+```bash
+{
+  "success": true,
+  "token": "<token>",
+  "message": "User created"
+}
 ```
+
+### POST /api/login
+Logs in a user. <br>
+```bash
+curl -X POST \
+  https://joshua-blog-app.herokuapp.com/api/login \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "email": "joshua@mail.com",
+  "password": "password",
+  "message": "User logged in"
+}'
+```
+Response
+```bash
 {
   "success": true,
   "token": "<token>"
@@ -48,27 +51,31 @@ Response
 ### GET /api/posts
 Returns a list of all published posts. <br>
 (optional params): `?limit=10&page=1` <br>
-```
+```bash
 curl -X GET \
-  https://joshua-blog-app.herokuapp.com/api/posts&limit=10&page=1
+  https://joshua-blog-app.herokuapp.com/api/post&limit=10&page=1
 ```
 Response
-```
+```bash
 {
   "success": true,
   "posts": [
     {
+      "_id": "6365c6ab7d624037f39d6b0a",
       "title": "My First Post",
       "body": "This is my first post",
-      "author": "Joshua",
-      "date": "2018-01-01T00:00:00.000Z"
+      "author": {
+        "_id": "6365c6ab7d624037f39d6b0a",
+        "first_name": "Joshua",
+        "last_name": "Me",
+        "email": "joshua@mail.com",
+      },
+      "state": "published",
+      "read_time": 1,
+      "read_count": 0,  
+      "created_at": "2019-01-01T00:00:00.000Z",
     },
-    {
-      "title": "My Second Post",
-      "body": "This is my second post",
-      "author": "Joshua",
-      "date": "2018-01-01T00:00:00.000Z"
-    }
+    ...
   ],
   "total": 2,
   "page": 1,
@@ -77,84 +84,104 @@ Response
 
 ### GET /api/posts/:id
 Returns a single post. <br>
-```
+```bash
 curl -X GET \
-  https://joshua-blog-app.herokuapp.com/api/posts/5a5a5a5a5a5a5a5a5a5a5a5a
+  https://joshua-blog-app.herokuapp.com/api/post/6365c6ab7d624037f39d6b0a
 ```
 Response
-```
+```bash
 {
   "success": true,
   "post": {
+    "_id": "6365c6ab7d624037f39d6b0a",
     "title": "My First Post",
     "body": "This is my first post",
-    "author": "Joshua",
-    "date": "2018-01-01T00:00:00.000Z"
+    "author": {
+      "_id": "6365c6ab7d624037f39d6b0a",
+      "first_name": "Joshua",
+      "last_name": "Me",
+      "email": "joshua@mail.com",
+    },
+    "state": "published",
+    "read_time": 1,
+    "read_count": 0,  
+    "created_at": "2019-01-01T00:00:00.000Z",
   }
 }
 ```
 
 ### POST /api/posts
 Creates a new post. <br>
-```
+```bash
 curl -X POST \
-  https://joshua-blog-app.herokuapp.com/api/posts \
+  https://joshua-blog-app.herokuapp.com/api/post \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer <token>' \
-  -d '{
-  "title": "My First Post",
-  "body": "This is my first post",
-  "author": "Joshua"
+  -d '{ \
+  "title": "My First Post", \
+  "body": "This is my first post", \
+  "description": "This is my first post", \
+  "tags": "[\"first\", \"post\"]", \
 }'
 ```
 Response
-```
+```bash
 {
   "success": true,
   "post": {
     "title": "My First Post",
     "body": "This is my first post",
-    "author": "Joshua",
-    "date": "2018-01-01T00:00:00.000Z"
+    "description": "This is my first post",
+    "tags": ["first", "post"],
+    "author": "6365c6ab7d624037f39d6b0a",
+    "state": "draft",
+    "read_time": 1,
+    "read_count": 0,
+    "created_at": "2019-01-01T00:00:00.000Z",
+    "_id": "6365c6ab7d624037f39d6b0a",
   }
 }
 ```
 
 ### PUT /api/posts/:id
 Updates a post. <br>
-```
+```bash
 curl -X PUT \
-  https://joshua-blog-app.herokuapp.com/api/posts/5a5a5a5a5a5a5a5a5a5a5a5a \
+  https://joshua-blog-app.herokuapp.com/api/post/6365c6ab7d624037f39d6b0a \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer <token>' \
   -d '{
-  "title": "My First Post",
-  "body": "This is my first post",
-  "author": "Joshua"
+  "title": "My First Updated Post",
 }'
 ```
 Response
-```
+```bash
 {
   "success": true,
   "post": {
-    "title": "My First Post",
+    "title": "My First Updated Post",
     "body": "This is my first post",
-    "author": "Joshua",
-    "date": "2018-01-01T00:00:00.000Z"
+    "description": "This is my first post",
+    "tags": ["first", "post"],
+    "author": "6365c6ab7d624037f39d6b0a",
+    "state": "draft",
+    "read_time": 1,
+    "read_count": 0,
+    "created_at": "2019-01-01T00:00:00.000Z",
+    "_id": "6365c6ab7d624037f39d6b0a",
   }
 }
 ```
 
 ### DELETE /api/posts/:id
 Deletes a post. <br>
-```
+```bash
 curl -X DELETE \
-  https://joshua-blog-app.herokuapp.com/api/posts/5a5a5a5a5a5a5a5a5a5a5a5a \
+  https://joshua-blog-app.herokuapp.com/api/post/6365c6ab7d624037f39d6b0a \
   -H 'Authorization: Bearer <token>'
 ```
 Response
-```
+```bash
 {
   "success": true
 }
@@ -162,30 +189,54 @@ Response
 
 ### PATCH /api/posts/:id/publish
 Publishes a post. <br>
-```
+```bash
 curl -X PATCH \
-  https://joshua-blog-app.herokuapp.com/api/posts/5a5a5a5a5a5a5a5a5a5a5a5a/publish \
+  https://joshua-blog-app.herokuapp.com/api/post/6365c6ab7d624037f39d6b0a/publish \
   -H 'Authorization: Bearer <token>'
 ```
 Response
-```
+```bash
 {
-  "success": true
+  "success": true,
+  "post": {
+    "title": "My First Post",
+    "body": "This is my first post",
+    "description": "This is my first post",
+    "tags": ["first", "post"],
+    "author": "6365c6ab7d624037f39d6b0a",
+    "state": "published",
+    "read_time": 1,
+    "read_count": 0,
+    "created_at": "2019-01-01T00:00:00.000Z",
+    "_id": "6365c6ab7d624037f39d6b0a",
+  }
 }
 ```
 
 
 ### PATCH /api/posts/:id/unpublish
 Un-publishes a post. <br>
-```
+```bash
 curl -X PATCH \
-  https://joshua-blog-app.herokuapp.com/api/posts/5a5a5a5a5a5a5a5a5a5a5a5a/unpublish \
+  https://joshua-blog-app.herokuapp.com/api/post/6365c6ab7d624037f39d6b0a/unpublish \
   -H 'Authorization: Bearer <token>'
 ```
 Response
-```
+```bash
 {
-  "success": true
+  "success": true,
+  "post": {
+    "title": "My First Post",
+    "body": "This is my first post",
+    "description": "This is my first post",
+    "tags": ["first", "post"],
+    "author": "6365c6ab7d624037f39d6b0a",
+    "state": "draft",
+    "read_time": 1,
+    "read_count": 0,
+    "created_at": "2019-01-01T00:00:00.000Z",
+    "_id": "6365c6ab7d624037f39d6b0a",
+  }
 }
 ```
 
