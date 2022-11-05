@@ -1,5 +1,5 @@
 # Joshua's Blogging App
-A blogging app built with Express.js, MongoDB, and Mongoose. This app is a requirement for [AltSchool's Backend Engineering](https://www.altschoolafrica.com/) program. Check out the [live demo](https://joshua-blog-app.herokuapp.com/app/in).
+A blogging app built with Express.js, MongoDB, and Mongoose. This app is a requirement for [AltSchool's Backend Engineering](https://www.altschoolafrica.com/) program. Check out the [live demo](https://joshua-blog-app.herokuapp.com/app/).
 
 ## API Documentation
 Below is a list of the API endpoints and their respective methods.
