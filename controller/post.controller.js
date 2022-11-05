@@ -24,6 +24,8 @@ exports.getPost = asyncHandler(async (req, res) => {
   if (!post) {
     throw new AppError("Post not found", 404);
   }
+  post.read_count += 1;
+  await post.save();
   res.status(200).json({
     success: true,
     post,
@@ -112,6 +114,11 @@ exports.unpublishPost = asyncHandler(async (req, res) => {
 exports.renderPostToView = asyncHandler(async (req, res) => {
   const { id: postId } = req.params;
   const post = await Post.findById(postId);
+  if (!post) {
+    throw new AppError("Post not found", 404);
+  }
+  post.read_count += 1;
+  await post.save();
   res.render("view", { post, user: req.user });
 });
 
