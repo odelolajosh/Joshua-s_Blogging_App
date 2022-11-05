@@ -11,7 +11,11 @@
       <span class="separator">•</span>
       <span class="date"><%= new Date(post.created_at).toDateString().substr(4) %></span>
       <span class="separator">•</span>
-      <span class="read_time"><%= post.read_time %> min read</span>
+      <span class="read_count"><%= post.read_count %> views</span>
+      <span class="separator">•</span>
+      <span class="read_time">
+        <%= post.read_time %> min read
+      </span>
     </div>
   </a>
 </li>
