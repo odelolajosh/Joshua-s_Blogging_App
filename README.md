@@ -1,14 +1,17 @@
 # Joshua's Blogging App
-A blogging app built with Express.js, MongoDB, and Mongoose. This app is a requirement for [AltSchool's Backend Engineering](https://www.altschoolafrica.com/) program. Check out the [live demo](https://joshua-blog.herokuapp.com/).
+A blogging app built with Express.js, MongoDB, and Mongoose. This app is a requirement for [AltSchool's Backend Engineering](https://www.altschoolafrica.com/) program. Check out the [live demo](https://joshua-blog-app.herokuapp.com/app/in).
 
 ## API Documentation
 Below is a list of the API endpoints and their respective methods.
+```
+BASE_URL = https://joshua-blog-app.herokuapp.com/api/
+```
 
 ### POST /api/login
 Logs in a user. <br>
 ```
 curl -X POST \
-  https://joshua-blog.herokuapp.com/api/login \
+  https://joshua-blog-app.herokuapp.com/api/login \
   -H 'Content-Type: application/json' \
   -d '{
   "username": "joshua",
@@ -27,7 +30,7 @@ Response
 Signs up a user. <br>
 ```
 curl -X POST \
-  https://joshua-blog.herokuapp.com/api/signup \
+  https://joshua-blog-app.herokuapp.com/api/signup \
   -H 'Content-Type: application/json' \
   -d '{
   "username": "joshua",
@@ -47,7 +50,7 @@ Returns a list of all published posts. <br>
 (optional params): `?limit=10&page=1` <br>
 ```
 curl -X GET \
-  https://joshua-blog.herokuapp.com/api/posts&limit=10&page=1
+  https://joshua-blog-app.herokuapp.com/api/posts&limit=10&page=1
 ```
 Response
 ```
@@ -76,7 +79,7 @@ Response
 Returns a single post. <br>
 ```
 curl -X GET \
-  https://joshua-blog.herokuapp.com/api/posts/5a5a5a5a5a5a5a5a5a5a5a5a
+  https://joshua-blog-app.herokuapp.com/api/posts/5a5a5a5a5a5a5a5a5a5a5a5a
 ```
 Response
 ```
@@ -95,7 +98,7 @@ Response
 Creates a new post. <br>
 ```
 curl -X POST \
-  https://joshua-blog.herokuapp.com/api/posts \
+  https://joshua-blog-app.herokuapp.com/api/posts \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer <token>' \
   -d '{
@@ -121,7 +124,7 @@ Response
 Updates a post. <br>
 ```
 curl -X PUT \
-  https://joshua-blog.herokuapp.com/api/posts/5a5a5a5a5a5a5a5a5a5a5a5a \
+  https://joshua-blog-app.herokuapp.com/api/posts/5a5a5a5a5a5a5a5a5a5a5a5a \
   -H 'Content-Type: application/json' \
   -H 'Authorization: Bearer <token>' \
   -d '{
@@ -147,7 +150,7 @@ Response
 Deletes a post. <br>
 ```
 curl -X DELETE \
-  https://joshua-blog.herokuapp.com/api/posts/5a5a5a5a5a5a5a5a5a5a5a5a \
+  https://joshua-blog-app.herokuapp.com/api/posts/5a5a5a5a5a5a5a5a5a5a5a5a \
   -H 'Authorization: Bearer <token>'
 ```
 Response
@@ -161,7 +164,7 @@ Response
 Publishes a post. <br>
 ```
 curl -X PATCH \
-  https://joshua-blog.herokuapp.com/api/posts/5a5a5a5a5a5a5a5a5a5a5a5a/publish \
+  https://joshua-blog-app.herokuapp.com/api/posts/5a5a5a5a5a5a5a5a5a5a5a5a/publish \
   -H 'Authorization: Bearer <token>'
 ```
 Response
@@ -176,7 +179,7 @@ Response
 Un-publishes a post. <br>
 ```
 curl -X PATCH \
-  https://joshua-blog.herokuapp.com/api/posts/5a5a5a5a5a5a5a5a5a5a5a5a/unpublish \
+  https://joshua-blog-app.herokuapp.com/api/posts/5a5a5a5a5a5a5a5a5a5a5a5a/unpublish \
   -H 'Authorization: Bearer <token>'
 ```
 Response
