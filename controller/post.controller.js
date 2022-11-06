@@ -1,21 +1,36 @@
 const { PostState } = require("../constants");
 const Post = require("../models/Post");
+const User = require("../models/User");
 const AppError = require("../utils/AppError");
 const asyncHandler = require("../utils/asyncHandler");
 const { getReadTime } = require("../utils/postUtils");
 const { CreatePostSchema } = require("../validations/post.validation");
 
 exports.getAllPosts = asyncHandler(async (req, res) => {
-  const { page = 1, limit = 5 } = req.query;
+  const { page = 1, limit = 5, author } = req.query;
   const skip = (page - 1) * limit;
-  const total = await Post.countDocuments({ state: PostState.PUBLISHED })
-  const totalPages = Math.ceil(total / limit);
-  const posts = await Post.findAllPublished().populate("author").skip(skip).limit(limit);
+  let query, total;
+  if (author) {
+    const users = await User.find({
+      $or: [
+        { first_name: { $regex: author, $options: "i" } },
+        { last_name: { $regex: author, $options: "i" } },
+      ],
+    });
+    const userIds = users.map((user) => user._id);
+    console.log(userIds.length);
+    total = await Post.countDocuments({ author: { $in: userIds }, state: PostState.PUBLISHED });
+    query = Post.find({ author: { $in: userIds }, state: PostState.PUBLISHED });
+  } else {
+    total = await Post.countDocuments({ state: PostState.PUBLISHED });
+    query = Post.findAllPublished();
+  }
+  const posts = await query.populate("author").skip(skip).limit(limit);
   res.status(200).json({
     success: true,
     posts,
     page,
-    total: totalPages,
+    total: Math.ceil(total / limit),
   });
 });
 
