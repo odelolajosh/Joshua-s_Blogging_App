@@ -50,7 +50,7 @@ Response
 
 ### GET /api/posts
 Returns a list of all published posts. <br>
-(optional params): `?limit=10&page=1` <br>
+(optional params): `?limit=10&page=1&author=Joshua` <br>
 ```bash
 curl -X GET \
   https://joshua-blog-app.herokuapp.com/api/post&limit=10&page=1
