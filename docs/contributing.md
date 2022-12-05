@@ -2,9 +2,10 @@
 
 ## 1. Installation
 1. Fork the repository
-2. Run `npm install`
-3. Run `npm start`
-4. Navigate to `localhost:3000`
+2. Create a `.env` file with the [example.env](./../example.env)
+3. Run `npm install`
+4. Run `npm start`
+5. Navigate to `localhost:3000`
 
 ## 2. Create an Issue
 - Create an issue discussing the feature you want to add or the bug you want to fix.
